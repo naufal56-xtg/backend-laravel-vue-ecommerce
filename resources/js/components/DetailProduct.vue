@@ -4,46 +4,46 @@
             <div class="modal-dialog modal-lg modal-simple modal-edit-user">
                 <div class="modal-content p-3 p-md-5">
                     <div class="modal-body py-3 py-md-0">
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" @click.prevent="closeForm"></button>
                         <div class="text-center mb-4">
-                            <h3 class="mb-2">Product Detail : ({{ props.data.nama_produk }})</h3>
+                            <h3 class="mb-2">Product Detail : ({{ props.form.nama_produk }})</h3>
                         </div>
 
                         <table class="table table-bordered mt-3">
                             <thead class="text-left">
                                 <tr>
                                     <th>Nama Produk :</th>
-                                    <td>{{ props.data.nama_produk }}</td>
+                                    <td>{{ props.form.nama_produk }}</td>
                                 </tr>
                                 <tr>
                                     <th>Kategori</th>
                                     <td>
-                                        {{ props.data.category_id }}
+                                        {{ props.form.category_id }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>Harga : </th>
-                                    <td>Rp. {{ props.data.harga }}</td>
+                                    <td>Rp. {{ $formatNumber(props.form.harga) }}</td>
                                 </tr>
                                 <tr>
                                     <th>Qty (Jumlah) :</th>
-                                    <td>{{ props.data.qty }}</td>
+                                    <td>{{ props.form.qty }}</td>
                                 </tr>
                                 <tr>
                                     <th>Berat</th>
-                                    <td>{{ props.data.berat }} (GRAM)</td>
+                                    <td>{{ props.form.berat }} (GRAM)</td>
                                 </tr>
                                 <tr>
                                     <th class="text-fp">Foto Produk</th>
                                     <td>
-                                        <img :src="'http://localhost:8000/images/' + props.data.foto_produk"
+                                        <img :src="'http://localhost:8000/images/' + props.form.foto_produk"
                                             class="img-detail">
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>Deskripsi</th>
                                     <td>
-                                        {{ props.data.deskripsi }}
+                                        {{ props.form.deskripsi }}
 
                                     </td>
                                 </tr>
@@ -59,8 +59,22 @@
 <script setup>
 
 const props = defineProps({
-    data: Array,
+    form: Object,
+    closeForm: Function,
 });
+
+const closeForm = () => {
+    $('#modal-detail-product').modal('hide');
+    props.form.nama_produk = '';
+    props.form.harga = 0;
+    props.form.qty = 0;
+    props.form.berat = 0;
+    props.form.deskripsi = '';
+    props.form.foto_produk = '';
+    props.form.rekomendasi = false;
+    props.form.category_id = '';
+    previewImage = null;
+}
 
 
 </script>

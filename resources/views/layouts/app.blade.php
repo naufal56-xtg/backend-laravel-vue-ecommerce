@@ -97,10 +97,10 @@
                                 <div data-i18n="Page 2">Products</div>
                             </router-link>
                         </li>
-                        <li class="menu-item" :class="$route.path.startsWith('/admin/users') ? 'active' : ''">
-                            <router-link to="/admin/users" class="menu-link">
+                        <li class="menu-item" :class="$route.path.startsWith('/admin/costumers') ? 'active' : ''">
+                            <router-link to="/admin/costumers" class="menu-link">
                                 <i class="menu-icon tf-icons mdi mdi-account-group"></i>
-                                <div data-i18n="Page 2">Users</div>
+                                <div data-i18n="Page 2">Costumers</div>
                             </router-link>
                         </li>
                     </ul>

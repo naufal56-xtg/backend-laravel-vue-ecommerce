@@ -14,18 +14,16 @@ class ProductController extends Controller
             'category'
         )->when(request('query'), function ($query, $searchQuery) {
             $query->where('nama_produk', 'like', "%{$searchQuery}%");
-        })->latest()->paginate(5);
+        })->latest()->paginate(10);
 
 
 
         return $products;
     }
 
-    public function detail(Product $product)
+    public function detail($id)
     {
-        $product->with(
-            'category'
-        )->get();
+        $product = Product::where('id', $id)->with('category')->get();
 
         return $product;
     }
@@ -131,9 +129,19 @@ class ProductController extends Controller
         return response()->json(['msg' => 'Data Produk Berhasil Dihapus']);
     }
 
-    public function bulkDeleteCategory()
+    public function bulkDeleteProduct()
     {
-        Product::whereIn('id', request('ids'))->delete();
+        $products = Product::whereIn('id', request('ids'));
+        foreach ($products as $product) {
+            if (!empty($product->foto_produk)) {
+                $pathImage = public_path('images/' .  $product->foto_produk);
+
+                if (file_exists($pathImage)) {
+                    unlink($pathImage);
+                }
+            }
+        }
+        $products->delete();
 
         return response()->json(['msg' => 'Data Kategori Berhasil Dihapus']);
     }

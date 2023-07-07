@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApplicationController;
 
@@ -30,11 +31,14 @@ Route::delete('/api/categories/delete/{category}', [CategoryController::class, '
 Route::delete('/api/categories', [CategoryController::class, 'bulkDeleteCategory']);
 
 Route::get('/api/products', [ProductController::class, 'index']);
-Route::get('/api/products/detail/{product}', [ProductController::class, 'detail']);
+Route::get('/api/products/detail/{id}', [ProductController::class, 'detail']);
 Route::post('/api/products/store', [ProductController::class, 'store']);
 Route::post('/api/products/update/{id}', [ProductController::class, 'update']);
 Route::delete('/api/products/delete/{id}', [ProductController::class, 'delete']);
-// Route::delete('/api/products', [ProductController::class, 'bulkDeleteCategory']);
+Route::delete('/api/products', [ProductController::class, 'bulkDeleteProduct']);
+
+Route::get('/api/users', [UserController::class, 'index']);
+Route::get('/api/users/detail/{id}', [UserController::class, 'detail']);
 
 
 Route::get('{view}', ApplicationController::class)->where('view', '(.*)');

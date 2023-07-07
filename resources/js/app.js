@@ -15,6 +15,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Routes from "./routes.js";
 
 const app = createApp({});
+import { createIntl } from "vue-intl";
 
 const router = createRouter({
     routes: Routes,
@@ -22,5 +23,11 @@ const router = createRouter({
 });
 
 app.use(router);
+app.use(
+    createIntl({
+        locale: "id",
+        defaultLocale: "id",
+    })
+);
 
 app.mount("#app");
