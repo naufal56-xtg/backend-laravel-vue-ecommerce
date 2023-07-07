@@ -89,7 +89,8 @@
         <div class="modal-dialog modal-lg modal-simple modal-edit-user">
             <div class="modal-content p-3 p-md-5">
                 <div class="modal-body py-3 py-md-0">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" @click.prevent="closeForm"></button>
+                    <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
                     <div class="text-center mb-4">
                         <h3 v-if="editing" class="mb-2">Form Ubah Data Produk</h3>
                         <h3 v-else class="mb-2">Form Membuat Data Produk</h3>
@@ -145,7 +146,7 @@
                                     class="form-control" placeholder="Silahkan Input Gambar Produk" />
                                 <label for="" class="form-label">Upload Image</label>
                                 <span class="mt-1 invalid-feedback">{{ errors.foto_produk }}</span>
-                                <!-- <div v-if="editing">
+                                <div v-if="editing">
                                     <div v-if="form.foto_produk">
                                         <img :src="'http://localhost:8000/images/' + form.foto_produk" alt=""
                                             class="img-preview">
@@ -158,7 +159,7 @@
                                     <div v-if="form.foto_produk">
                                         <img :src="previewImage" alt="" class="img-preview">
                                     </div>
-                                </div> -->
+                                </div>
                             </div>
                         </div>
                         <div class="col-12">
@@ -191,7 +192,7 @@
         </div>
     </div>
 
-    <DetailProduct :form="form"></DetailProduct>
+    <DetailProduct :data="data"></DetailProduct>
 </template>
 
 <script setup>
@@ -222,6 +223,8 @@ let searchQuery = ref(null);
 
 let previewImage = ref(null);
 
+let data = ref([]);
+
 let form = reactive({
     id: '',
     nama_produk: '',
@@ -237,14 +240,21 @@ let form = reactive({
 const getProductDetail = async (product) => {
     $('#modal-detail-product').modal('show');
     await axios(`/api/products/detail/` + product.id).then((response) => {
-        form.nama_produk = response.data.nama_produk;
-        form.harga = response.data.harga;
-        form.qty = response.data.qty;
-        form.berat = response.data.berat;
-        form.category_id = response.data.category_id;
-        form.foto_produk = response.data.foto_produk;
-        form.deskripsi = response.data.deskripsi;
+        data.value = response.data;
     })
+}
+
+const closeForm = () => {
+    form.nama_produk = '';
+    form.harga = 0;
+    form.qty = 0;
+    form.berat = 0;
+    form.deskripsi = '';
+    form.foto_produk = null;
+    form.rekomendasi = false;
+    form.category_id = '';
+    previewImage = null;
+    $('#modal-product').modal('hide');
 }
 
 const getCategories = async () => {
@@ -314,23 +324,21 @@ const createProduct = async (values, actions) => {
         }
     }).then((response) => {
         getProducts();
-        $('#modal-product').modal('hide');
         toastr.success(response.data.msg);
-        form.nama_produk = '';
-        form.harga = 0;
-        form.qty = 0;
-        form.berat = 0;
-        form.deskripsi = '';
-        form.foto_produk = null;
-        form.rekomendasi = false;
-        form.category_id = '';
-        previewImage = null;
+        closeForm();
+        // $('#modal-product').modal('hide');
+        // form.nama_produk = '';
+        // form.harga = 0;
+        // form.qty = 0;
+        // form.berat = 0;
+        // form.deskripsi = '';
+        // form.foto_produk = null;
+        // form.rekomendasi = false;
+        // form.category_id = '';
+        // previewImage = null;
     }).catch((error) => {
         actions.setErrors(error.response.data.errors);
-        // if (error.response.data.errors) {
-        //     setFieldError('nama_kategori', error.response.data.errors.nama_kategori[0]);
-        // }
-        // console.log(error);
+
     });
 }
 

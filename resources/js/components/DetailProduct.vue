@@ -6,46 +6,44 @@
                     <div class="modal-body py-3 py-md-0">
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         <div class="text-center mb-4">
-                            <h3 class="mb-2">Product Detail : ({{ props.form.nama_produk }})</h3>
+                            <h3 class="mb-2">Product Detail : ({{ props.data.nama_produk }})</h3>
                         </div>
 
                         <table class="table table-bordered mt-3">
                             <thead class="text-left">
                                 <tr>
                                     <th>Nama Produk :</th>
-                                    <td>{{ props.form.nama_produk }}</td>
+                                    <td>{{ props.data.nama_produk }}</td>
                                 </tr>
                                 <tr>
                                     <th>Kategori</th>
                                     <td>
-                                        {{ props.form.category_id }}
+                                        {{ props.data.category_id }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>Harga : </th>
-                                    <td>Rp. {{ props.form.harga }}</td>
+                                    <td>Rp. {{ props.data.harga }}</td>
                                 </tr>
                                 <tr>
                                     <th>Qty (Jumlah) :</th>
-                                    <td>{{ props.form.qty }}</td>
+                                    <td>{{ props.data.qty }}</td>
                                 </tr>
                                 <tr>
                                     <th>Berat</th>
-                                    <td>{{ props.form.berat }} (GRAM)</td>
+                                    <td>{{ props.data.berat }} (GRAM)</td>
                                 </tr>
                                 <tr>
                                     <th class="text-fp">Foto Produk</th>
                                     <td>
-                                        <img :src="'http://localhost:8000/images/' + props.form.foto_produk"
+                                        <img :src="'http://localhost:8000/images/' + props.data.foto_produk"
                                             class="img-detail">
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>Deskripsi</th>
                                     <td>
-                                        <pre>
-                                         {{ props.form.deskripsi }}
-                                       </pre>
+                                        {{ props.data.deskripsi }}
 
                                     </td>
                                 </tr>
@@ -61,10 +59,8 @@
 <script setup>
 
 const props = defineProps({
-    form: Object,
+    data: Array,
 });
-
-
 
 
 </script>
@@ -77,10 +73,5 @@ const props = defineProps({
 
 .text-fp {
     padding-bottom: 80px !important;
-}
-
-pre {
-    display: flex !important;
-    text-align: left !important;
 }
 </style>
