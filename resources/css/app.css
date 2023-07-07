@@ -1,0 +1,12 @@
+@import "../assets/vendor/fonts/materialdesignicons.css";
+@import "../assets/vendor/fonts/fontawesome.css";
+@import "../assets/vendor/css/rtl/core.css";
+@import "../assets/vendor/css/rtl/theme-default.css";
+@import "../assets/css/demo.css";
+@import "../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css";
+@import "../assets/vendor/libs/node-waves/node-waves.css";
+@import "../assets/vendor/libs/toastr/toastr.css";
+
+/* @import "../assets/img/favicon/favicon.ico"; */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+/* @import url('https://unpkg.com/dropzone@5/dist/min/dropzone.min.css'); */
