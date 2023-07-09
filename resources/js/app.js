@@ -6,6 +6,7 @@ import "../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js";
 import "../assets/vendor/libs/node-waves/node-waves.js";
 import "../assets/vendor/libs/hammer/hammer.js";
 import "../assets/vendor/js/menu.js";
+import "../assets/js/pages-auth.js";
 
 // import "../assets/vendor/js/helpers.js";
 // import "../assets/js/config.js";
@@ -13,9 +14,10 @@ import "../assets/vendor/js/menu.js";
 import { createApp } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
 import Routes from "./routes.js";
+import { createIntl } from "vue-intl";
+import Login from "./pages/auth/Login.vue";
 
 const app = createApp({});
-import { createIntl } from "vue-intl";
 
 const router = createRouter({
     routes: Routes,
@@ -29,5 +31,5 @@ app.use(
         defaultLocale: "id",
     })
 );
-
+app.component("Login", Login);
 app.mount("#app");

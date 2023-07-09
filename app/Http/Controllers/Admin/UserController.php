@@ -30,7 +30,7 @@ class UserController extends Controller
             'nama_lengkap' => 'required|string|',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6',
-            'foto_profile' => 'required|image|mimes:png,jpg,jpeg|max:2048',
+            'foto_profile' => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
             'no_telp' => 'nullable|numeric',
             'tanggal_lahir' => 'nullable|date',
             'alamat' => 'nullable',

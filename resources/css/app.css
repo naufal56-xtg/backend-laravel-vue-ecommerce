@@ -6,6 +6,7 @@
 @import "../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css";
 @import "../assets/vendor/libs/node-waves/node-waves.css";
 @import "../assets/vendor/libs/toastr/toastr.css";
+@import "../assets/vendor/css/pages/page-auth.css";
 
 /* @import "../assets/img/favicon/favicon.ico"; */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
