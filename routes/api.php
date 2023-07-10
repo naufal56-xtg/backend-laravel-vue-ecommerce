@@ -1,14 +1,15 @@
 <?php
 
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Front\FrontCartController;
-use App\Http\Controllers\Front\FrontCategoryController;
+use App\Http\Controllers\Front\FrontUserController;
 use App\Http\Controllers\Front\FrontOrderController;
 use App\Http\Controllers\Front\FrontProductController;
-use App\Http\Controllers\Front\FrontUserController;
+use App\Http\Controllers\Front\FrontCategoryController;
 use App\Http\Controllers\Front\FrontWishlistController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 /*
 |--------------------------------------------------------------------------
