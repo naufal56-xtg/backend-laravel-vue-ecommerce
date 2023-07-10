@@ -8,9 +8,6 @@ import "../assets/vendor/libs/hammer/hammer.js";
 import "../assets/vendor/js/menu.js";
 import "../assets/js/pages-auth.js";
 
-// import "../assets/vendor/js/helpers.js";
-// import "../assets/js/config.js";
-
 import { createApp } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
 import Routes from "./routes.js";
@@ -24,6 +21,7 @@ const router = createRouter({
     history: createWebHistory(),
 });
 
+app.use();
 app.use(router);
 app.use(
     createIntl({

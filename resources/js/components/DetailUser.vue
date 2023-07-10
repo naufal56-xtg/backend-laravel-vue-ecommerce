@@ -35,6 +35,9 @@
                                         <div v-if="props.data.jk === 'L'">
                                             Laki - Laki
                                         </div>
+                                        <div v-else-if="props.data.jk === null">
+                                            -
+                                        </div>
                                         <div v-else>
                                             Perempuan
                                         </div>
@@ -53,7 +56,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>Alamt</th>
+                                    <th>Alamat</th>
                                     <td>
                                         {{ props.data.alamat ?? '-' }}
 
