@@ -97,10 +97,16 @@
                                 <div data-i18n="Page 2">Products</div>
                             </router-link>
                         </li>
-                        <li class="menu-item" :class="$route.path.startsWith('/admin/users') ? 'active' : ''">
-                            <router-link to="/admin/users" class="menu-link">
+                        <li class="menu-item" :class="$route.path.startsWith('/admin/costumers') ? 'active' : ''">
+                            <router-link to="/admin/costumers" class="menu-link">
                                 <i class="menu-icon tf-icons mdi mdi-account-group"></i>
-                                <div data-i18n="Page 2">Users</div>
+                                <div data-i18n="Page 2">Costumers</div>
+                            </router-link>
+                        </li>
+                        <li class="menu-item" :class="$route.path.startsWith('/admin/orders') ? 'active' : ''">
+                            <router-link to="/admin/orders" class="menu-link">
+                                <i class="menu-icon tf-icons mdi mdi-cart-outline"></i>
+                                <div data-i18n="Page 2">Orders</div>
                             </router-link>
                         </li>
                     </ul>
@@ -182,10 +188,14 @@
                                             <div class="dropdown-divider"></div>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="auth-login-basic.html">
-                                                <i class="mdi mdi-power me-2"></i>
-                                                <span class="align-middle">Log Out</span>
-                                            </a>
+                                            <form action="{{ route('logout') }}" method="post">
+                                                @csrf
+                                                <a class="dropdown-item"
+                                                    onclick="event.preventDefault(); this.closest('form').submit();">
+                                                    <i class="mdi mdi-power me-2"></i>
+                                                    <span class="align-middle">Log Out</span>
+                                                </a>
+                                            </form>
                                         </li>
                                     </ul>
                                 </li>
@@ -200,7 +210,9 @@
                     <div class="content-wrapper">
 
 
-                        <router-view></router-view>
+                        <router-view>
+
+                        </router-view>
 
                         <!-- Footer -->
                         <footer class="content-footer footer bg-footer-theme">

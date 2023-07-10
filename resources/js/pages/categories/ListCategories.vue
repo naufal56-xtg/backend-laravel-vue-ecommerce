@@ -4,7 +4,7 @@
 
         <div class="card">
             <div class="card-header text-center">
-                <h4>List Data Kategori</h4>
+                <h4>Daftar Data Kategori</h4>
             </div>
             <div class="card-body">
                 <div class="d-flex justify-content-between">

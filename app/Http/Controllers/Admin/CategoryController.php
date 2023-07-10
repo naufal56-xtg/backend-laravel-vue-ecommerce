@@ -14,7 +14,7 @@ class CategoryController extends Controller
     {
         $categories = Category::when(request('query'), function ($query, $searchQuery) {
             $query->where('nama_kategori', 'like', "%{$searchQuery}%");
-        })->latest()->paginate(5);
+        })->latest()->paginate(10);
 
         return $categories;
     }

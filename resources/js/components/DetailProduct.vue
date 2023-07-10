@@ -4,7 +4,7 @@
             <div class="modal-dialog modal-lg modal-simple modal-edit-user">
                 <div class="modal-content p-3 p-md-5">
                     <div class="modal-body py-3 py-md-0">
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" @click.prevent="closeForm"></button>
                         <div class="text-center mb-4">
                             <h3 class="mb-2">Product Detail : ({{ props.form.nama_produk }})</h3>
                         </div>
@@ -23,7 +23,7 @@
                                 </tr>
                                 <tr>
                                     <th>Harga : </th>
-                                    <td>Rp. {{ props.form.harga }}</td>
+                                    <td>Rp. {{ $formatNumber(props.form.harga) }}</td>
                                 </tr>
                                 <tr>
                                     <th>Qty (Jumlah) :</th>
@@ -43,9 +43,7 @@
                                 <tr>
                                     <th>Deskripsi</th>
                                     <td>
-                                        <pre>
-                                         {{ props.form.deskripsi }}
-                                       </pre>
+                                        {{ props.form.deskripsi }}
 
                                     </td>
                                 </tr>
@@ -62,9 +60,21 @@
 
 const props = defineProps({
     form: Object,
+    closeForm: Function,
 });
 
-
+const closeForm = () => {
+    $('#modal-detail-product').modal('hide');
+    props.form.nama_produk = '';
+    props.form.harga = 0;
+    props.form.qty = 0;
+    props.form.berat = 0;
+    props.form.deskripsi = '';
+    props.form.foto_produk = '';
+    props.form.rekomendasi = false;
+    props.form.category_id = '';
+    previewImage = null;
+}
 
 
 </script>
@@ -77,10 +87,5 @@ const props = defineProps({
 
 .text-fp {
     padding-bottom: 80px !important;
-}
-
-pre {
-    display: flex !important;
-    text-align: left !important;
 }
 </style>

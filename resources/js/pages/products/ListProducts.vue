@@ -4,7 +4,7 @@
 
         <div class="card">
             <div class="card-header text-center">
-                <h4>List Data Produk</h4>
+                <h4>Daftar Data Produk</h4>
             </div>
             <div class="card-body">
                 <div class="d-flex justify-content-between">
@@ -12,11 +12,11 @@
                         <button class="btn btn-primary" @click.prevent="addProduct">
                             Tambah Produk
                         </button>
-                        <!-- <button v-if="selectedCate.length > 0" @click.prevent="bulkDelete"
+                        <button v-if="selectedProduct.length > 0" @click.prevent="bulkDelete"
                             class="btn btn-danger btn-select">
-                            Hapus Kategori
+                            Hapus Produk
                         </button>
-                        <span class="cate-select">Total Pilih Kategori : {{ selectedCate.length }}</span> -->
+                        <span class="cate-select">Total Pilih Kategori : {{ selectedProduct.length }}</span>
                     </div>
 
                     <div>
@@ -27,10 +27,11 @@
                 <table class="table table-hover table-bordered mt-3 text-center">
                     <thead>
                         <tr>
-                            <!-- <th>
-                                <input type="checkbox" class="form-check-input" v-model="selectAll"
-                                    @change="selectAllProducts" />
-                            </th> -->
+                            <th>
+                                <!-- <input type="checkbox" class="form-check-input" v-model="selectAll"
+                                    @change="selectAllProducts" /> -->
+                                #
+                            </th>
                             <th>No</th>
                             <th>Nama Product</th>
                             <th>Harga</th>
@@ -42,15 +43,15 @@
                     </thead>
                     <tbody v-if="products.data.length > 0">
                         <tr v-for="(product, index) in products.data" :key="product.id">
-                            <!-- <td>
+                            <td>
                                 <input type="checkbox" class="form-check-input" :checked="selectAll"
                                     @change="toggleSelect(product)" />
-                            </td> -->
+                            </td>
                             <td>
                                 {{ index + products.from }}
                             </td>
                             <td>{{ product.nama_produk }}</td>
-                            <td>Rp. {{ product.harga }}</td>
+                            <td>Rp. {{ $formatNumber(product.harga) }}</td>
                             <td>{{ product.qty }}</td>
                             <td>{{ product.category.nama_kategori }}</td>
                             <td>
@@ -89,7 +90,8 @@
         <div class="modal-dialog modal-lg modal-simple modal-edit-user">
             <div class="modal-content p-3 p-md-5">
                 <div class="modal-body py-3 py-md-0">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" @click.prevent="closeForm"></button>
+                    <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
                     <div class="text-center mb-4">
                         <h3 v-if="editing" class="mb-2">Form Ubah Data Produk</h3>
                         <h3 v-else class="mb-2">Form Membuat Data Produk</h3>
@@ -145,7 +147,7 @@
                                     class="form-control" placeholder="Silahkan Input Gambar Produk" />
                                 <label for="" class="form-label">Upload Image</label>
                                 <span class="mt-1 invalid-feedback">{{ errors.foto_produk }}</span>
-                                <!-- <div v-if="editing">
+                                <div v-if="editing">
                                     <div v-if="form.foto_produk">
                                         <img :src="'http://localhost:8000/images/' + form.foto_produk" alt=""
                                             class="img-preview">
@@ -158,7 +160,7 @@
                                     <div v-if="form.foto_produk">
                                         <img :src="previewImage" alt="" class="img-preview">
                                     </div>
-                                </div> -->
+                                </div>
                             </div>
                         </div>
                         <div class="col-12">
@@ -210,7 +212,6 @@ let products = ref(
     }
 );
 
-defineEmits(['getProductDetail']);
 
 let categories = ref([]);
 
@@ -221,6 +222,12 @@ let toastr = useToastr();
 let searchQuery = ref(null);
 
 let previewImage = ref(null);
+
+let selectedProduct = ref([]);
+
+let selectAll = ref(false);
+
+
 
 let form = reactive({
     id: '',
@@ -234,17 +241,31 @@ let form = reactive({
     category_id: ''
 });
 
-const getProductDetail = async (product) => {
+const getProductDetail = (product) => {
     $('#modal-detail-product').modal('show');
-    await axios(`/api/products/detail/` + product.id).then((response) => {
-        form.nama_produk = response.data.nama_produk;
-        form.harga = response.data.harga;
-        form.qty = response.data.qty;
-        form.berat = response.data.berat;
-        form.category_id = response.data.category_id;
-        form.foto_produk = response.data.foto_produk;
-        form.deskripsi = response.data.deskripsi;
+    axios(`/api/products/detail/` + product.id).then((response) => {
+        form.nama_produk = response.data[0].nama_produk;
+        form.harga = response.data[0].harga;
+        form.qty = response.data[0].qty;
+        form.berat = response.data[0].berat;
+        form.category_id = response.data[0].category.nama_kategori;
+        form.foto_produk = response.data[0].foto_produk;
+        form.deskripsi = response.data[0].deskripsi;
     })
+
+}
+
+const closeForm = () => {
+    form.nama_produk = '';
+    form.harga = 0;
+    form.qty = 0;
+    form.berat = 0;
+    form.deskripsi = '';
+    form.foto_produk = null;
+    form.rekomendasi = false;
+    form.category_id = '';
+    previewImage = null;
+    $('#modal-product').modal('hide');
 }
 
 const getCategories = async () => {
@@ -262,7 +283,8 @@ const getProducts = async (page = 1) => {
         }
     }).then((response) => {
         products.value = response.data;
-
+        selectedProduct.value = [];
+        selectAll.value = false;
     }).catch((error) => {
         console.log(error);
     });
@@ -314,23 +336,21 @@ const createProduct = async (values, actions) => {
         }
     }).then((response) => {
         getProducts();
-        $('#modal-product').modal('hide');
         toastr.success(response.data.msg);
-        form.nama_produk = '';
-        form.harga = 0;
-        form.qty = 0;
-        form.berat = 0;
-        form.deskripsi = '';
-        form.foto_produk = null;
-        form.rekomendasi = false;
-        form.category_id = '';
-        previewImage = null;
+        closeForm();
+        // $('#modal-product').modal('hide');
+        // form.nama_produk = '';
+        // form.harga = 0;
+        // form.qty = 0;
+        // form.berat = 0;
+        // form.deskripsi = '';
+        // form.foto_produk = null;
+        // form.rekomendasi = false;
+        // form.category_id = '';
+        // previewImage = null;
     }).catch((error) => {
         actions.setErrors(error.response.data.errors);
-        // if (error.response.data.errors) {
-        //     setFieldError('nama_kategori', error.response.data.errors.nama_kategori[0]);
-        // }
-        // console.log(error);
+
     });
 }
 
@@ -402,6 +422,45 @@ const deleteProduct = (product) => {
 }
 
 
+// Seleected Produk
+
+const toggleSelect = (product) => {
+    const index = selectedProduct.value.indexOf(product.id);
+    if (index === -1) {
+        selectedProduct.value.push(product.id);
+    } else {
+        selectedProduct.value.splice(index, 1);
+    }
+    console.log(selectedProduct.value);
+}
+
+
+// Bulk Delete Produk
+
+const bulkDelete = async () => {
+    await axios.delete('/api/products', {
+        data: {
+            ids: selectedProduct.value,
+        }
+    }).then((response) => {
+        getProducts();
+        selectedProduct.value = [];
+        selectAll.value = false;
+        toastr.success(response.data.msg);
+    }).catch((error) => {
+        console.log(error);
+    });
+}
+
+// Delete Selected All Produk
+
+// let selectAllProducts = () => {
+//     if (selectAll.value) {
+//         selectedProduct.value = products.value.data.map(product => product.id);
+//     } else {
+//         selectedProduct.value = [];
+//     }
+// }
 
 
 watch(searchQuery, debounce(() => {

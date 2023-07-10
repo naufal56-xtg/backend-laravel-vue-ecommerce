@@ -24,6 +24,7 @@
         "sweetalert2": "^11.7.12",
         "toastr": "^2.1.4",
         "vee-validate": "^4.10.5",
+        "vue-intl": "^6.4.16",
         "vue-router": "^4.2.2",
         "yup": "^1.2.0"
     }
