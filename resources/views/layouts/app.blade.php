@@ -9,7 +9,9 @@
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
     <title>Materialize - Material Design HTML Admin Template</title>
-
+    @if (Auth::check())
+        <meta name="user_id" content="{{ Auth::user()->id }}" />
+    @endif
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 

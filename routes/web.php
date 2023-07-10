@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\LoginController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
@@ -19,7 +20,7 @@ use App\Http\Controllers\ApplicationController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/login');
 });
 
 Route::get('/admin/login', [LoginController::class, 'index'])->name('admin.index');
@@ -45,6 +46,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/api/users', [UserController::class, 'index']);
     Route::get('/api/users/detail/{id}', [UserController::class, 'detail']);
+
+    Route::get('/api/orders', [OrderController::class, 'index']);
 });
 
 
