@@ -14,4 +14,9 @@ class FrontUserController extends Controller
 
         return $users;
     }
+
+    public function getUser(Request $request) {
+        $user = $request->user();
+        return response()->json($user);
+    }
 }
