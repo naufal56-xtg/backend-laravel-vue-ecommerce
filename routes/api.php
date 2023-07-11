@@ -26,7 +26,9 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 //     return $request->user();
 // });
 
+Route::post('/register', [AuthenticatedSessionController::class, 'register']);
 Route::post('/login', [AuthenticatedSessionController::class, 'store']);
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
     Route::get('/user', [FrontUserController::class, 'getUser']);
@@ -36,7 +38,7 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('/users', [UserController::class, 'index']);
 Route::post('/users/store', [UserController::class, 'store']);
 
-Route::get('/products', [FrontProductController::class, 'index']);
+Route::get('/product', [FrontProductController::class, 'index']);
 Route::get('/carts', [FrontCartController::class, 'index']);
 Route::get('/wishlists', [FrontWishlistController::class, 'index']);
 Route::get('/categories', [FrontCategoryController::class, 'index']);

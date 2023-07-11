@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AuthenticatedSessionController extends Controller
@@ -21,7 +22,7 @@ class AuthenticatedSessionController extends Controller
             $token = $request->user()->createToken('authToken')->plainTextToken;
 
             return response()->json([
-                'status' => 'success',
+                'message' => 'Login Berhasil!',
                 'token' => $token,
             ]);
         }
@@ -32,12 +33,26 @@ class AuthenticatedSessionController extends Controller
         ], 401);
     }
 
+    public function register(Request $request) {
+        $data = $request->validate([
+            'nama_lengkap' => ['required'],
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+
+        User::create($data);
+
+        return response()->json([
+            'message' => 'Register Berhasil!',
+        ]);
+    }
+
     public function destroy(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
 
         return response()->json([
-            'message' => 'Successfully logged out',
+            'message' => 'Berhasil Logout',
         ]);
     }
 }
